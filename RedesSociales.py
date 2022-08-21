@@ -31,7 +31,7 @@ if meses.__contains__(mes1.upper()) and meses.__contains__(mes2.upper()):
     for columna in range(3, 9):
         if lista[0][columna] == mes1.upper():
             diferencia += int(locale.atof(lista[16][columna]))
-        elif lista[0][columna] == mes2.upper():
+        if lista[0][columna] == mes2.upper():
             diferencia -= int(locale.atof((lista[16][columna])))
     print("La diferencia de visualizacion de Youtube entre " + mes1 + " y " + mes2 + " es de", abs(diferencia))
 else:
