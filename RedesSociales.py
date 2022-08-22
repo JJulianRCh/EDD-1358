@@ -14,8 +14,11 @@ import locale
 import csv
 
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')  # Ajuste de localizacion para los numeros
-archivoCSV = open('presenciaredes.csv', encoding='UTF-8')  # Cargamos el archivo csv en una variable
-lista = list(csv.reader(archivoCSV))  # Lo guardamos en una lista
+try:
+  archivoCSV = open('presenciaredes.csv', encoding='UTF-8')  # Cargamos el archivo csv en una variable
+  lista = list(csv.reader(archivoCSV))  # Lo guardamos en una lista
+except FileNotFoundError:
+  print("Archivo no encontrado")
 
 # Mostrar la diferencia de seguidores en Twitter entre el mes de Enero y Junio
 # Restamos la cantidad de seguidores en Junio con el de Enero para obtener la diferencia
