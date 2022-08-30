@@ -58,15 +58,9 @@ public class ArregloADT {
      *
      * @param valor elemento
      */
-    public void limpiar(Object[] valor) {
-        // Este metodo no entendi bien lo que hace exactamente.
-        // Lo que entendi es que todos los elementos del array del objeto
-        // y se establecen en el parametro "valor" y se limpia las casillas del arreglo.
-        // Pero no entiendo la funcion del parametro.
-        valor = new Object[tamaño];
+    public void limpiar(Object valor) {
         for (int i = 0; i < tamaño; i++) {
-            valor[i] = array[i];
-            array[i] = null;
+            array[i] = valor;
         }
     }
 
