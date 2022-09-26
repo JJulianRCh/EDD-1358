@@ -23,7 +23,8 @@ public class testLista {
         head.eliminarPrimero();
         head.eliminar(6);
         head.actualizar(12, 4);
-        head.transversal();
+        head.transversal(true);
+        head.transversal(false);
         System.out.println("Tamaño: " + head.getTamaño());
     }
 }
