@@ -215,22 +215,33 @@ public class ListaDoblementeLigadaADT<T> {
     }
 
     /**
-     * Imprime todos los elementos de la lista de izquierda a derecha y despues
-     * los imprime en el sentido opuesto
+     * Imprime todos los elementos de la lista de izquierda a derecha o de
+     * derecha a izquierda dependiendo del paramatro que se le
+     *
+     * <p>
+     * (true) de izquierda a derecha
+     * <p>
+     * (false) de derecha a izquierda
+     *
+     * @param direccion a que direccion se recorrera la lista
      */
-    public void transversal() {
+    public void transversal(boolean direccion) {
         NodoDoble aux = head;
-        NodoDoble aux2 = aux;
-        while (aux != null) {
-            System.out.print(aux);
-            aux2 = aux;
-            aux = aux.getSiguiente();
+        if (direccion) {
+            while (aux != null) {
+                System.out.print(aux);
+                aux = aux.getSiguiente();
+            }
+            System.out.println("");
+        } else {
+            while (aux.getSiguiente() != null) {
+                aux = aux.getSiguiente();
+            }
+            while (aux != null) {
+                System.out.print(aux);
+                aux = aux.getAnterior();
+            }
+            System.out.println("");
         }
-        System.out.println("");
-        while (aux2 != null) {
-            System.out.print(aux2);
-            aux2 = aux2.getAnterior();
-        }
-        System.out.println("");
     }
 }
