@@ -131,8 +131,8 @@ public class ListaDoblementeLigadaADT<T> {
                     }
                     aux.getSiguiente().getSiguiente().setAnterior(aux);
                     aux.setSiguiente(aux.getSiguiente().getSiguiente());
+                    eliminar--;
                 }
-                tamaño--;
             } catch (NullPointerException ex) {
                 System.out.println("Salio del limite de la lista\n" + ex);
             }
