@@ -51,6 +51,22 @@ public class Laberinto {
     }
 
     /**
+     * Revisar si hay una casilla libre para avanzar. En caso de que el tablero
+     * se salga de sus limites se regresara un false.
+     *
+     * @param x posicion X de la casilla
+     * @param y posicion Y de la casilla
+     * @return si hay camino libre en el laberinto
+     */
+    private boolean hayCasillaLibre(int x, int y) {
+        try {
+            return tabla.getElemento(x, y) == ' ';
+        } catch (IndexOutOfBoundsException ex) {
+            return false;
+        }
+    }
+
+    /**
      * Metodo recursivo. Resuelve en si el laberinto regresando si este se pudo
      * resolver.
      * <P>
@@ -71,20 +87,20 @@ public class Laberinto {
      * @return si el laberinto tiene solucion
      * @throws IndexOutOfBoundsException en caso de que se salga del tablero.
      */
-    private boolean haySolucion(int i, int j) throws IndexOutOfBoundsException {
+    private boolean haySolucion(int i, int j) {
         if (i == salida.x && j == salida.y) {
             return true;
         }
-        if (tabla.getElemento(i, j - 1) == ' ') {
+        if (hayCasillaLibre(i, j - 1)) {
             pasos.push(new Casilla(i, j - 1));
             tabla.setElemento(i, j - 1, '*');
-        } else if (tabla.getElemento(i - 1, j) == ' ') {
+        } else if (hayCasillaLibre(i - 1, j)) {
             pasos.push(new Casilla(i - 1, j));
             tabla.setElemento(i - 1, j, '*');
-        } else if (tabla.getElemento(i, j + 1) == ' ') {
+        } else if (hayCasillaLibre(i, j + 1)) {
             pasos.push(new Casilla(i, j + 1));
             tabla.setElemento(i, j + 1, '*');
-        } else if (tabla.getElemento(i + 1, j) == ' ') {
+        } else if (hayCasillaLibre(i + 1, j)) {
             pasos.push(new Casilla(i + 1, j));
             tabla.setElemento(i + 1, j, '*');
         } else if (i == entrada.x && j == entrada.y) {
