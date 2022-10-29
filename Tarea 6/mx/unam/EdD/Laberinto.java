@@ -10,8 +10,8 @@ public class Laberinto {
 
     private final Arreglo2DADT<Character> tabla; //Tabla donde se almacena el laberinto
     private final Pilas<Casilla> pasos; //Esta pila guardaras las casillas recorridas en el laberinto
-    private final int[] entrada = new int[2]; //La entrada del laberinto
-    private final int[] salida = new int[2]; //La salida del laberinto
+    private Casilla entrada; //La entrada del laberinto
+    private Casilla salida; //La salida del laberinto
 
     public Laberinto(File file) throws Exception {
         FileReader f = new FileReader(file);
@@ -44,12 +44,10 @@ public class Laberinto {
             linea = arc.readLine();
         }
         dato = linea.split(",");
-        entrada[0] = Integer.parseInt(dato[0]);
-        entrada[1] = Integer.parseInt(dato[1]);
+        entrada = new Casilla(Integer.parseInt(dato[0]), Integer.parseInt(dato[1]));
         linea = arc.readLine();
         dato = linea.split(",");
-        salida[0] = Integer.parseInt(dato[0]);
-        salida[1] = Integer.parseInt(dato[1]);
+        salida = new Casilla(Integer.parseInt(dato[0]), Integer.parseInt(dato[1]));
     }
 
     /**
@@ -74,32 +72,28 @@ public class Laberinto {
      * @throws IndexOutOfBoundsException en caso de que se salga del tablero.
      */
     private boolean haySolucion(int i, int j) throws IndexOutOfBoundsException {
-        if (i == salida[0] && j == salida[1]) {
+        if (i == salida.x && j == salida.y) {
             return true;
         }
         if (tabla.getElemento(i, j - 1) == ' ') {
             pasos.push(new Casilla(i, j - 1));
             tabla.setElemento(i, j - 1, '*');
-            return haySolucion(pasos.peak().getX(), pasos.peak().getY());
         } else if (tabla.getElemento(i - 1, j) == ' ') {
             pasos.push(new Casilla(i - 1, j));
             tabla.setElemento(i - 1, j, '*');
-            return haySolucion(pasos.peak().getX(), pasos.peak().getY());
         } else if (tabla.getElemento(i, j + 1) == ' ') {
             pasos.push(new Casilla(i, j + 1));
             tabla.setElemento(i, j + 1, '*');
-            return haySolucion(pasos.peak().getX(), pasos.peak().getY());
         } else if (tabla.getElemento(i + 1, j) == ' ') {
             pasos.push(new Casilla(i + 1, j));
             tabla.setElemento(i + 1, j, '*');
-            return haySolucion(pasos.peak().getX(), pasos.peak().getY());
-        }
-        if (i == entrada[0] && j == entrada[1]) {
+        } else if (i == entrada.x && j == entrada.y) {
             return false;
+        } else {
+            pasos.pop();
+            tabla.setElemento(i, j, 'X');
         }
-        pasos.pop();
-        tabla.setElemento(i, j, 'X');
-        return haySolucion(pasos.peak().getX(), pasos.peak().getY());
+        return haySolucion(pasos.peak().x, pasos.peak().y);
     }
 
     /**
@@ -108,9 +102,9 @@ public class Laberinto {
      * imprime un menjsaje indicando que no se pudo resolver.
      */
     public void resolverLaberinto() {
-        pasos.push(new Casilla(entrada[0], entrada[1]));
-        tabla.setElemento(entrada[0], entrada[1], '*');
-        if (!haySolucion(entrada[0], entrada[1])) {
+        pasos.push(entrada);
+        tabla.setElemento(entrada.x, entrada.y, '*');
+        if (!haySolucion(pasos.peak().x, pasos.peak().y)) {
             System.out.println("No hay solucion");
         }
     }
@@ -119,8 +113,8 @@ public class Laberinto {
      * Imprime la tabla que contiene el laberinto.
      */
     public void mostrarLaberinto() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < tabla.getFilas(); i++) {
+            for (int j = 0; j < tabla.getColumnas(); j++) {
                 System.out.print(tabla.getElemento(i, j));
             }
             System.out.println("");
@@ -131,20 +125,12 @@ public class Laberinto {
 //Esta clase interna sirve para representar las posiciones en las casillas en el laberinto
 class Casilla {
 
-    private final int x;
-    private final int y;
+    int x;
+    int y;
 
     public Casilla(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     @Override
