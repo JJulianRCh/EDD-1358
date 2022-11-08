@@ -49,9 +49,14 @@ public class Cola<T> {
      * elemento que se encuentra en el indice 0 del array
      * 
      * @return el elemento removido
+     * @throws ArrayIndexOutOfBoundsException si la cola esta vacia
      */
     public T dequeue() {
-        return datos.remove(0);
+        if (!estaVacia()) {
+            return datos.remove(0);
+        } else {
+            throw new ArrayIndexOutOfBoundsException("La cola esta vacia");
+        }
     }
 
      /**
